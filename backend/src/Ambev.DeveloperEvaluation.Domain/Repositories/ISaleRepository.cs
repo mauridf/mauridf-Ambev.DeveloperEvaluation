@@ -8,5 +8,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<Sale?> GetByIdAsync(Guid id);
         Task<List<Sale>> GetAllAsync();
         Task SaveChangesAsync();
+        Task DeleteAsync(Sale sale);
     }
 }

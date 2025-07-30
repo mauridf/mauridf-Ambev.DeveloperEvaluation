@@ -30,6 +30,11 @@
             return 0m;
         }
 
+        public void CalculateTotals()
+        {
+            Discount = CalculateDiscount(Quantity, UnitPrice);
+        }
+
         private SaleItem() { }
     }
 }

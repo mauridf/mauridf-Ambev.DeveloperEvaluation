@@ -46,5 +46,22 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             if (item != null)
                 Items.Remove(item);
         }
+
+        public void Update(string clientName, string branchName, List<SaleItem> items)
+        {
+            ClientName = clientName;
+            BranchName = branchName;
+            Items = items;
+
+            RecalculateTotals();
+        }
+
+        private void RecalculateTotals()
+        {
+            foreach (var item in Items)
+            {
+                item.CalculateTotals();
+            }
+        }
     }
 }

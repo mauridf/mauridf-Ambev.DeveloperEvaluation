@@ -36,5 +36,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(Sale sale)
+        {
+            _context.Sales.Remove(sale);
+            await Task.CompletedTask;
+        }
     }
 }
