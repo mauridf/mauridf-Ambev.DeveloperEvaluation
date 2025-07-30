@@ -29,5 +29,7 @@
                 return 0.1m * unitPrice * quantity;
             return 0m;
         }
+
+        private SaleItem() { }
     }
 }

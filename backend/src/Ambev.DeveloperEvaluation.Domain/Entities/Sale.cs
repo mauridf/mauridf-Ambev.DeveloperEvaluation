@@ -33,6 +33,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Status = SaleStatus.NotCancelled;
         }
 
+        private Sale() { }
+
         public void CancelSale()
         {
             Status = SaleStatus.Cancelled;
