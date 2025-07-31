@@ -1,7 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.ORM;
@@ -20,6 +22,19 @@ public class DefaultContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
+
+        var dateTimeProperties = modelBuilder.Model
+        .GetEntityTypes()
+        .SelectMany(t => t.GetProperties())
+        .Where(p => p.ClrType == typeof(DateTime));
+
+        foreach (var property in dateTimeProperties)
+        {
+            property.SetValueConverter(new ValueConverter<DateTime, DateTime>(
+                v => v.ToUniversalTime(),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+            ));
+        }
     }
 }
 public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
@@ -38,6 +53,8 @@ public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
                connectionString,
                b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
         );
+        builder.EnableSensitiveDataLogging();
+        builder.LogTo(Console.WriteLine);
 
         return new DefaultContext(builder.Options);
     }

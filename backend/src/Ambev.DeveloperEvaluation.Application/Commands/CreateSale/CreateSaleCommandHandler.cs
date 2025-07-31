@@ -21,10 +21,23 @@ namespace Ambev.DeveloperEvaluation.Application.Commands.CreateSale
 
         public async Task<SaleDto> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
         {
-            var items = request.Items.Select(i => new SaleItem(i.ProductName, i.Quantity, i.UnitPrice)).ToList();
-            var sale = new Sale(request.SaleNumber, request.SaleDate, request.ClientName, request.BranchName, items);
+            var items = request.Items.Select(i => new SaleItem(
+                    i.ProductName, 
+                    i.Quantity, 
+                    i.UnitPrice
+                )).ToList();
+
+            var utcSaleDate = DateTime.SpecifyKind(request.SaleDate, DateTimeKind.Utc);
+
+            var sale = new Sale(
+                    request.SaleNumber, 
+                    request.SaleDate, 
+                    request.ClientName, 
+                    request.BranchName, items
+                );
 
             await _repository.AddAsync(sale);
+            await _repository.SaveChangesAsync();
 
             return _mapper.Map<SaleDto>(sale);
         }

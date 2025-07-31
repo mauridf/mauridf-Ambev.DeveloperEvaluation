@@ -21,6 +21,7 @@ namespace Ambev.DeveloperEvaluation.Application.Commands.UpdateSale
             var sale = await _repository.GetByIdAsync(request.Id);
             if (sale == null) throw new Exception("Venda não encontrada");
 
+
             sale.Update(request.ClientName, request.BranchName,
                 request.Items.Select(i => new Domain.Entities.SaleItem(i.ProductName, i.Quantity, i.UnitPrice)).ToList());
 
