@@ -1,7 +1,7 @@
 
 # Ambev Developer Evaluation - Sales API
 
-Esta é uma API desenvolvida para o desafio técnico da Ambev. Ela gerencia o cadastro de vendas e seus itens, com persistência em banco de dados PostgreSQL.
+Esta é uma API desenvolvida para o desafio técnico. Ela gerencia o cadastro de vendas e seus itens, com persistência em banco de dados PostgreSQL.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -37,7 +37,6 @@ Configure a string de conexão no arquivo `appsettings.json`:
 ## 🐘 Migrations
 
 ```bash
-dotnet ef migrations add InitialCreate -p Ambev.DeveloperEvaluation.ORM -s Ambev.DeveloperEvaluation.WebApi
 dotnet ef database update -s Ambev.DeveloperEvaluation.WebApi
 ```
 
@@ -89,4 +88,4 @@ Acesse: `https://localhost:44312/swagger`
 
 ## 👨‍💻 Autor
 
-Desenvolvido por Maurício Carvalho para o desafio técnico da Ambev.
+Desenvolvido por Maurício Carvalho para o desafio técnico.
