@@ -5,6 +5,7 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Ambev.DeveloperEvaluation.Application.Commands.CreateSale
 {
@@ -12,11 +13,13 @@ namespace Ambev.DeveloperEvaluation.Application.Commands.CreateSale
     {
         private readonly ISaleRepository _repository;
         private readonly IMapper _mapper;
+        private readonly ILogger<CreateSaleCommandHandler> _logger;
 
-        public CreateSaleCommandHandler(ISaleRepository repository, IMapper mapper)
+        public CreateSaleCommandHandler(ISaleRepository repository, IMapper mapper, ILogger<CreateSaleCommandHandler> logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<SaleDto> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
@@ -38,6 +41,9 @@ namespace Ambev.DeveloperEvaluation.Application.Commands.CreateSale
 
             await _repository.AddAsync(sale);
             await _repository.SaveChangesAsync();
+
+            _logger.LogInformation("Evento: SaleCreated | Venda criada com número: {SaleNumber}, Cliente: {ClientName}, Data: {SaleDate}",
+                request.SaleNumber, request.ClientName, request.SaleDate);
 
             return _mapper.Map<SaleDto>(sale);
         }

@@ -42,5 +42,12 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             _context.Sales.Remove(sale);
             await Task.CompletedTask;
         }
+
+        public IQueryable<Sale> Query()
+        {
+            return _context.Sales
+                .Include(s => s.Items)
+                .AsQueryable();
+        }
     }
 }

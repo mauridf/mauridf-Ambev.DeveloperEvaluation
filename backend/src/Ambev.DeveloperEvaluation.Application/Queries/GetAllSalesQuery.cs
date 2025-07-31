@@ -3,5 +3,13 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Queries
 {
-    public class GetAllSalesQuery : IRequest<List<SaleDto>> { }
+    public record GetAllSalesQuery(
+        string? ClientName,
+        DateTime? StartDate,
+        DateTime? EndDate,
+        string? OrderBy = "SaleDate",
+        bool Desc = false,
+        int Page = 1,
+        int PageSize = 10
+    ) : IRequest<List<SaleDto>>;
 }

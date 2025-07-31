@@ -9,5 +9,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<List<Sale>> GetAllAsync();
         Task SaveChangesAsync();
         Task DeleteAsync(Sale sale);
+        IQueryable<Sale> Query();
     }
 }

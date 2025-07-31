@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -47,14 +48,27 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
                 Items.Remove(item);
         }
 
-        public void Update(string clientName, string branchName, List<SaleItem> items)
+        public void Update(string clientName, string branchName, List<SaleItem> newItems, ILogger logger)
         {
             ClientName = clientName;
             BranchName = branchName;
-            Items = items;
 
-            RecalculateTotals();
+            // Identificar itens removidos
+            var removedItems = Items.Where(oldItem =>
+                !newItems.Any(newItem =>
+                    newItem.ProductName == oldItem.ProductName &&
+                    newItem.Quantity == oldItem.Quantity &&
+                    newItem.UnitPrice == oldItem.UnitPrice)).ToList();
+
+            foreach (var removedItem in removedItems)
+            {
+                logger.LogInformation("Evento: ItemCancelled | Item removido: {ProductName}", removedItem.ProductName);
+            }
+
+            Items.Clear();
+            Items.AddRange(newItems);
         }
+
 
         private void RecalculateTotals()
         {
