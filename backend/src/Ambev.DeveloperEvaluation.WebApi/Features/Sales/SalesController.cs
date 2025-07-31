@@ -42,11 +42,27 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(
+            [FromQuery] string? clientName,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate,
+            [FromQuery] string? orderBy = "SaleDate",
+            [FromQuery] bool desc = false,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var result = await _mediator.Send(new GetAllSalesQuery());
+            var result = await _mediator.Send(new GetAllSalesQuery(
+                clientName,
+                startDate,
+                endDate,
+                orderBy,
+                desc,
+                page,
+                pageSize
+            ));
             return Ok(result);
         }
+
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateSaleCommand command)
