@@ -1,3 +1,4 @@
+
 # Ambev Developer Evaluation - Sales API
 
 Esta é uma API desenvolvida para o desafio técnico da Ambev. Ela gerencia o cadastro de vendas e seus itens, com persistência em banco de dados PostgreSQL.
@@ -50,11 +51,36 @@ Acesse: `https://localhost:44312/swagger`
 
 ## ✅ Endpoints
 
+### 📦 Vendas
+
 - `POST /api/Sales` - Cria uma nova venda
-- `GET /api/Sales` - Lista todas as vendas
+- `GET /api/Sales` - Lista todas as vendas (com filtros, ordenação e paginação)
 - `GET /api/Sales/{id}` - Detalhes de uma venda
 - `PUT /api/Sales/{id}` - Atualiza uma venda
 - `DELETE /api/Sales/{id}` - Remove uma venda
+
+### 🔐 Autenticação
+
+- `POST /api/Auth` - Autentica um usuário e retorna um token JWT
+
+### 👤 Usuários
+
+- `POST /api/Users` - Cria um novo usuário
+- `GET /api/Users/{id}` - Consulta um usuário pelo ID
+- `DELETE /api/Users/{id}` - Remove um usuário pelo ID
+
+## ⚙️ Funcionalidades Avançadas
+
+- 🔍 **Filtros**: por `ClientName`, `StartDate`, `EndDate`
+- 🧭 **Ordenação**: por `SaleDate`, `ClientName` ou `SaleNumber`
+- 📄 **Paginação**: parâmetros `Page` e `PageSize`
+- 🧾 **Eventos de domínio via Log**:
+  - `SaleCreated`
+  - `SaleModified`
+  - `SaleCancelled`
+  - `ItemCancelled` (ao remover item de uma venda existente)
+- 🚫 **Tratamento global de erros** com middleware customizado
+- 🔐 **Autenticação JWT** para proteger endpoints
 
 ## ⚠️ Observações
 
